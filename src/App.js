@@ -16,7 +16,6 @@ function App() {
         <PrivateRoute path="/profile-page">
             <Route exact path="/profile-page" component={ProfilePage} />
         </PrivateRoute>
-        <AddForm />
       </div>
     </Router>
   );

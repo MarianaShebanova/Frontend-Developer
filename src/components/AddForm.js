@@ -21,7 +21,6 @@ class AddForm extends React.Component {
     e.preventDefault();
     axios.post(``, this.state.art)
       .then(res => {
-        // console.log(res.data)
         this.props.setArt(res.data)
         this.setState({ art: emptyForm })
         this.props.history.push(`/`)
@@ -35,7 +34,7 @@ class AddForm extends React.Component {
         <h2>Post Your Art!</h2>
         <form onSubmit={this.handleSubmit}>
           <h4>Title: </h4>
-          <input 
+          <input className="titleStyles"
             type="text"
             name="title"
             value={this.state.art.title}
@@ -43,14 +42,14 @@ class AddForm extends React.Component {
             required
           />
           <h4>Artist: </h4>          
-          <input 
+          <input className="titleStyles"
             type="text"
             name="artist"
             value={this.state.art.artist}
             onChange={this.handleChange}
             required
-          />
-          <button>Post</button>
+          /><br />
+          <button className="postButton">Post</button>
         </form>
       </div>
     )

@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.addFormStyles {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.titleStyles {
+  border: none;
+  background: rgb(241, 241, 241);
+  width: 500px;
+  height: 50px;
+  font-size: 1.5rem;
+  font-style: bold;
+}
+
+.postButton {
+  text-align: center;
+  margin: 25px 0;
+}

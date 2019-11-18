@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {axiosWithAuth} from "./axiosWithAuth";
+import AddForm from './AddForm';
 
 const ProfilePage = (props) => {
     const [profileData, setProfileData] = useState({
@@ -30,6 +31,7 @@ const ProfilePage = (props) => {
     return (
         <div className="profile-div">
             <h1>Welcome to your profile!</h1>
+            <AddForm />
             <button onClick={LogOut}>Log Out</button>
         </div>
     );
