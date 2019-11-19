@@ -48,6 +48,20 @@ app.get("/profile", authenticator, (req, res) => {
     res.send(profile);
 });
 
+app.put("/profile", authenticator, (req, res) => {
+    if (req.body.username !== undefined && req.body.email !== undefined) {
+        const update = req.body;
+        profile.username = update.username;
+        profile.email = update.email;
+        profile.photo = update.photo;
+        profile.age = update.age;
+        profile.location = update.location;
+        res.send(profile);
+    } else {
+        res.status(404).json({ error: "There was an update error" });
+    }
+});
+
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
     if (username === "username" && password === "password") {
