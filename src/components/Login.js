@@ -20,23 +20,44 @@ const Login = (props) => {
         // post request to retrieve a token from the backend
         e.preventDefault();
         axios
-        .post(
-            "http://localhost:5000/login",
+        .get("https://als-artportfolio.herokuapp.com/login",
+            credentials
+        )
+        .then(response => {
+            console.log(credentials);
+            console.log("response", response);
+            // const { data } = response;
+            // sessionStorage.setItem("token", data.payload);
+            // setLogged(true);
+            // // once token is handeled, navigate to profile page
+            // props.history.push("/profile-page");
+        })
+        .catch(err => {
+            console.log(credentials);
+            console.log("there was an error");
+            console.log(err);
+        })
+    };
+
+    const register = e => {
+        e.preventDefault();
+        axios
+        .post("https://als-artportfolio.herokuapp.com/createnewuser", 
             credentials
         )
         .then(response => {
             console.log("response", response);
-            const { data } = response;
-            sessionStorage.setItem("token", data.payload);
-            setLogged(true);
-            // once token is handeled, navigate to profile page
-            props.history.push("/profile-page");
+            // const { data } = response;
+            // sessionStorage.setItem("token", data.payload);
+            // setLogged(true);
+            // // once token is handeled, navigate to profile page
+            // props.history.push("/profile-page");
         })
         .catch(err => {
             console.log("there was an error");
             console.log(err);
         })
-    };
+    }
 
     useEffect(() => {
         if (sessionStorage.getItem("token")) {
@@ -51,7 +72,7 @@ const Login = (props) => {
         <h1>Welcome to the Art Portfolio</h1>
         <div className="login-form">
             <h2>{isLoggedIn ? "LOGGED IN!" : "Please login"}</h2>
-            <form onSubmit={login}>
+            <form>
                 <div className="input-div">
                     <label htmlFor="username">Username:</label>
                     <input
@@ -70,7 +91,8 @@ const Login = (props) => {
                         onChange={handleChange}
                     />
                 </div>
-                <button>Log in</button>
+                <button onClick={login}>Log in</button>
+                <button onClick={register}>Register</button>
             </form>
         </div>
     </div>
