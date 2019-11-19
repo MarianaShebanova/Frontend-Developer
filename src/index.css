@@ -30,4 +30,15 @@ code {
 .postButton {
   text-align: center;
   margin: 25px 0;
+  width: 75px;
+  height: 25px;
+  border: 1px solid rgb(241, 241, 241);
+  font-size: 0.8rem;
+}
+
+.postButton:hover {
+  font-size: 1.0rem;
+  border: none;
+  background: rgb(241, 241, 241);
+  transition: 1s;
 }
