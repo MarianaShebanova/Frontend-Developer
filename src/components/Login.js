@@ -54,7 +54,7 @@ const Login = (props) => {
             <form onSubmit={login}>
                 <div className="input-div">
                     <label htmlFor="username">Username:</label>
-                    <input
+                    <input className="titleStyles"
                         type="text"
                         name="username"
                         value={credentials.username}
@@ -63,14 +63,14 @@ const Login = (props) => {
                 </div>
                 <div className="input-div">
                     <label htmlFor="password">Password:</label>
-                    <input
+                    <input className="titleStyles"
                         type="password"
                         name="password"
                         value={credentials.password}
                         onChange={handleChange}
                     />
                 </div>
-                <button>Log in</button>
+                <button className="postButton">Log in</button>
             </form>
         </div>
     </div>

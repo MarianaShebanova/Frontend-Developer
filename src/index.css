@@ -42,3 +42,22 @@ code {
   background: rgb(241, 241, 241);
   transition: 1s;
 }
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.login-form label {
+  font-size: 1.25rem;
+  margin: 0 15px;
+}
+
+.input-div {
+  margin: 15px 0;
+}
+
+.home-page h1 {
+  text-align: center;
+}
