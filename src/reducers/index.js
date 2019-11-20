@@ -1,5 +1,6 @@
 const initialState = {
     loggedInUser: sessionStorage.getItem('logged-user'),
+    userID: sessionStorage.getItem('user-id'),
 }
 
 function reducer(state = initialState, action) {
@@ -10,6 +11,11 @@ function reducer(state = initialState, action) {
                 ...state,
                 loggedInUser: action.payload,
             };
+        case "SET_ID":
+                return {
+                    ...state,
+                    userID: action.payload,
+                };
         default:
             return state;
     }
