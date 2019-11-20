@@ -56,28 +56,28 @@ const ProfilePage = (props) => {
         props.history.push("/");
     }
 
-    // const editMode = () => {
-    //     if (!editing) {
-    //         setEditing(true);
-    //         setEditProfile(profileData);
-    //     } else {
-    //         axiosWithAuth().put(`http://localhost:5000/profile`,editProfile)
-    //         .then(response => {
-    //             setProfileData({
-    //                 username: response.data.username,
-    //                 email: response.data.email,
-    //                 photo: response.data.photo,
-    //                 age: response.data.age,
-    //                 location: response.data.location,
-    //                 posts: response.data.posts,
-    //             })
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
-    //         setEditing(false);
-    //     }
-    // }
+    const editMode = () => {
+        if (!editing) {
+            setEditing(true);
+            setEditProfile(profileData);
+        } else {
+            // axiosWithAuth().put(`http://localhost:5000/profile`,editProfile)
+            // .then(response => {
+            //     setProfileData({
+            //         username: response.data.username,
+            //         email: response.data.email,
+            //         photo: response.data.photo,
+            //         age: response.data.age,
+            //         location: response.data.location,
+            //         posts: response.data.posts,
+            //     })
+            // })
+            // .catch(error => {
+            //     console.log(error);
+            // })
+            setEditing(false);
+        }
+    }
 
     const updateEdit = e => {
         e.preventDefault();
@@ -89,7 +89,7 @@ const ProfilePage = (props) => {
 
     return (
         <div className="profile-div" style={{'textAlign':'center'}}>
-            {/* <button onClick={() => editMode()}>{!editing ? 'Edit Profile' : 'Submit'}</button> */}
+            <button onClick={() => editMode()}>{!editing ? 'Edit Profile' : 'Submit'}</button>
             <h1>{profileData.firstname} {profileData.lastname}</h1>
             <input name='firstname' value={editProfile.firstname} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input>
             <input name='lastname' value={editProfile.lastname} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input>
