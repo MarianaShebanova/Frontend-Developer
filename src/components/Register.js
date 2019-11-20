@@ -23,36 +23,24 @@ const Register = (props) => {
         });
     };
 
+    const setLoggedInUser = () => {
+        sessionStorage.setItem("logged-user",credentials.username)
+        Dispatch({ type: "SET_LOGGED", payload: sessionStorage.getItem('logged-user')});
+    }
+
     const register = e => {
         e.preventDefault();
         console.log(credentials);
         axios
         .post(`https://als-artportfolio.herokuapp.com/createnewuser/`, 
             credentials, 
-            // {
-            //     "profilepicture": "www.piicture.com",
-            //     "username": "findme2",
-            //     "password": "password",
-            //     "primaryemail": "gmai5d45fl2@gmail.com",
-            //     "firstname": "Albert",
-            //     "lastname": "Yakubov",
-            //     "age": 10,
-            //     "location": "somewhere in the world"
-            // },
-            // {
-            //     headers: {
-            //         Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
-            //         'Content-Type': 'application/x-www-form-urlencoded'
-            //     }
-            // },
         )
         .then(response => {
             console.log("response", response);
-            // const { data } = response;
-            // sessionStorage.setItem("token", data.payload);
-            // setLogged(true);
-            // // once token is handeled, navigate to profile page
-            // props.history.push("/profile-page");
+            sessionStorage.setItem("token", response.data.access_token);
+            setLoggedInUser();
+            // once token is handeled, navigate to profile page
+            props.history.push("/profile-page");
         })
         .catch(err => {
             console.log("there was an error");
