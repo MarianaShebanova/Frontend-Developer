@@ -18,6 +18,7 @@ const ProfilePage = (props) => {
     const [profileData, setProfileData] = useState(defaultProfile);
     const [editProfile, setEditProfile] = useState(defaultProfile);
     const [editing, setEditing] = useState(false);
+    const [userID, setID] = useState("");
     const Dispatch = useDispatch();
 
     const clearLoggedInUser = () => {
@@ -28,31 +29,54 @@ const ProfilePage = (props) => {
     // fetch the pofile data of the user when the component mounts
     // set the profile data to display the user's profile page
 
-    useEffect(() => {
+    const getProfileData = () => {
         axiosWithAuth().get(`https://als-artportfolio.herokuapp.com/users/users/`)
         .then(response => {
             console.log(response);
-            console.log("This is the logged in user:",props.loggedInUser);
             const userInfo = response.data.filter(function (user) {return user.username === props.loggedInUser})[0];
-        setProfileData({
-            firstname: userInfo.firstname,
-            lastname: userInfo.lastname,
-            username: userInfo.username,
-            primaryemail: userInfo.primaryemail,
-            profilepicture: userInfo.profilepicture,
-            age: userInfo.age,
-            location: userInfo.location,
-            arts: userInfo.arts,
-        })
+            setProfileData({
+                firstname: userInfo.firstname,
+                lastname: userInfo.lastname,
+                username: userInfo.username,
+                primaryemail: userInfo.primaryemail,
+                profilepicture: userInfo.profilepicture,
+                age: userInfo.age,
+                location: userInfo.location,
+                arts: userInfo.arts,
+            });
+            setID(userInfo.userid);
         })
         .catch(error => {
         console.log(error);
         })
+    }
+
+    useEffect(() => {
+        getProfileData();
     },[])
+
+    console.log("This is the ID", userID);
 
     const LogOut = () => {
         clearLoggedInUser();
         sessionStorage.removeItem("token");
+        props.history.push("/");
+    }
+
+    const deleteProfile = () => {
+        clearLoggedInUser();
+        sessionStorage.removeItem("token");
+
+        // Delete request for profile
+        axiosWithAuth().delete(`https://als-artportfolio.herokuapp.com/users/user/${userID}`)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        
+        // Return to home page
         props.history.push("/");
     }
 
@@ -61,22 +85,14 @@ const ProfilePage = (props) => {
             setEditing(true);
             setEditProfile(profileData);
         } else {
-            // axiosWithAuth().put(`http://localhost:5000/profile`,editProfile)
-            // .then(response => {
-            //     setProfileData({
-            //         firstname: userInfo.firstname,
-            //         lastname: userInfo.lastname,
-            //         username: userInfo.username,
-            //         primaryemail: userInfo.primaryemail,
-            //         profilepicture: userInfo.profilepicture,
-            //         age: userInfo.age,
-            //         location: userInfo.location,
-            //         arts: userInfo.arts,
-            //     })
-            // })
-            // .catch(error => {
-            //     console.log(error);
-            // })
+            axiosWithAuth().put(`https://als-artportfolio.herokuapp.com/users/user/${userID}`,editProfile)
+            .then(response => {
+                console.log(response);
+                getProfileData();
+            })
+            .catch(error => {
+                console.log(error);
+            })
             setEditing(false);
         }
     }
@@ -91,7 +107,7 @@ const ProfilePage = (props) => {
 
     return (
         <div className="profile-div" style={{'textAlign':'center'}}>
-            <button onClick={() => editMode()}>{!editing ? 'Edit Profile' : 'Submit'}</button>
+            <button onClick={() => editMode()}>{!editing ? 'Edit Profile' : 'Submit Edits'}</button>
             <h1>{profileData.firstname} {profileData.lastname}</h1>
             <input name='firstname' value={editProfile.firstname} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input>
             <input name='lastname' value={editProfile.lastname} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input>
@@ -116,6 +132,8 @@ const ProfilePage = (props) => {
                 </div>
             ))}
             <button onClick={LogOut}>Log Out</button>
+            <br /><br />
+            <button onClick={deleteProfile} style={{'background-color':'red', 'color':'white'}}>Delete Profile</button>
         </div>
     );
 };

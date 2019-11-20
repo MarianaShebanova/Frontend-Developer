@@ -26,37 +26,28 @@ const Register = (props) => {
     const register = e => {
         e.preventDefault();
         console.log(credentials);
-        // axios
-        // .post(`https://als-artportfolio.herokuapp.com/users/user/`, 
-        //     {
-        //     "username": "test3",
-        //     "password": "password",
-        //     "primaryemail": "test3@gmail.com",
-        //     // "profilepicture": "www.piicture.com",
-        //     // "firstname": "Albert",
-        //     // "lastname": "Yakubov",
-        //     // "age": 10,
-        //     // "location": "somewhere in the world"
-        //     }, 
-        //     // {
-        //     //     headers: {
-        //     //         Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
-        //     //         'Content-Type': 'application/x-www-form-urlencoded'
-        //     //     }
-        //     // }
-        // )
-        // .then(response => {
-        //     console.log("response", response);
-        //     // const { data } = response;
-        //     // sessionStorage.setItem("token", data.payload);
-        //     // setLogged(true);
-        //     // // once token is handeled, navigate to profile page
-        //     // props.history.push("/profile-page");
-        // })
-        // .catch(err => {
-        //     console.log("there was an error");
-        //     console.log(err);
-        // })
+        axios
+        .post(`https://als-artportfolio.herokuapp.com/users/user/`, 
+            credentials, 
+            {
+                headers: {
+                    Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
+        )
+        .then(response => {
+            console.log("response", response);
+            // const { data } = response;
+            // sessionStorage.setItem("token", data.payload);
+            // setLogged(true);
+            // // once token is handeled, navigate to profile page
+            // props.history.push("/profile-page");
+        })
+        .catch(err => {
+            console.log("there was an error");
+            console.log(err);
+        })
     }
 
     const goToLogin = e => {
