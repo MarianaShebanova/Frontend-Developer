@@ -64,12 +64,14 @@ const ProfilePage = (props) => {
             // axiosWithAuth().put(`http://localhost:5000/profile`,editProfile)
             // .then(response => {
             //     setProfileData({
-            //         username: response.data.username,
-            //         email: response.data.email,
-            //         photo: response.data.photo,
-            //         age: response.data.age,
-            //         location: response.data.location,
-            //         posts: response.data.posts,
+            //         firstname: userInfo.firstname,
+            //         lastname: userInfo.lastname,
+            //         username: userInfo.username,
+            //         primaryemail: userInfo.primaryemail,
+            //         profilepicture: userInfo.profilepicture,
+            //         age: userInfo.age,
+            //         location: userInfo.location,
+            //         arts: userInfo.arts,
             //     })
             // })
             // .catch(error => {

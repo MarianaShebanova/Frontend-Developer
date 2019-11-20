@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Login from "./components/Login";
 import ProfilePage from './components/ProfilePage.js';
 import PrivateRoute from './components/PrivateRoute';
+import Register from "./components/Register";
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path="/" component={Login} />
+        <Route exact path="/register" component={Register} />
         <PrivateRoute path="/profile-page">
             <Route exact path="/profile-page" component={ProfilePage} />
         </PrivateRoute>
