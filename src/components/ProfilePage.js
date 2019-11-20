@@ -4,12 +4,14 @@ import { useDispatch } from 'react-redux';
 import { connect } from 'react-redux';
 
 const defaultProfile = {
+    firstname: "",
+    lastname: "",
     username: "",
-    email: "",
-    photo: "",
+    primaryemail: "",
+    profilepicture: "",
     age: "",
     location: "",
-    posts: [],
+    arts: [],
 }
 
 const ProfilePage = (props) => {
@@ -33,12 +35,14 @@ const ProfilePage = (props) => {
             console.log("This is the logged in user:",props.loggedInUser);
             const userInfo = response.data.filter(function (user) {return user.username === props.loggedInUser})[0];
         setProfileData({
+            firstname: userInfo.firstname,
+            lastname: userInfo.lastname,
             username: userInfo.username,
-            email: userInfo.primaryemail,
-            photo: userInfo.profilepicture,
+            primaryemail: userInfo.primaryemail,
+            profilepicture: userInfo.profilepicture,
             age: userInfo.age,
             location: userInfo.location,
-            posts: userInfo.arts,
+            arts: userInfo.arts,
         })
         })
         .catch(error => {
@@ -52,28 +56,28 @@ const ProfilePage = (props) => {
         props.history.push("/");
     }
 
-    const editMode = () => {
-        if (!editing) {
-            setEditing(true);
-            setEditProfile(profileData);
-        } else {
-            axiosWithAuth().put(`http://localhost:5000/profile`,editProfile)
-            .then(response => {
-                setProfileData({
-                    username: response.data.username,
-                    email: response.data.email,
-                    photo: response.data.photo,
-                    age: response.data.age,
-                    location: response.data.location,
-                    posts: response.data.posts,
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            })
-            setEditing(false);
-        }
-    }
+    // const editMode = () => {
+    //     if (!editing) {
+    //         setEditing(true);
+    //         setEditProfile(profileData);
+    //     } else {
+    //         axiosWithAuth().put(`http://localhost:5000/profile`,editProfile)
+    //         .then(response => {
+    //             setProfileData({
+    //                 username: response.data.username,
+    //                 email: response.data.email,
+    //                 photo: response.data.photo,
+    //                 age: response.data.age,
+    //                 location: response.data.location,
+    //                 posts: response.data.posts,
+    //             })
+    //         })
+    //         .catch(error => {
+    //             console.log(error);
+    //         })
+    //         setEditing(false);
+    //     }
+    // }
 
     const updateEdit = e => {
         e.preventDefault();
@@ -85,19 +89,23 @@ const ProfilePage = (props) => {
 
     return (
         <div className="profile-div" style={{'textAlign':'center'}}>
-            <button onClick={() => editMode()}>{!editing ? 'Edit Profile' : 'Submit'}</button>
-            <h1>{profileData.username}</h1>
+            {/* <button onClick={() => editMode()}>{!editing ? 'Edit Profile' : 'Submit'}</button> */}
+            <h1>{profileData.firstname} {profileData.lastname}</h1>
+            <input name='firstname' value={editProfile.firstname} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input>
+            <input name='lastname' value={editProfile.lastname} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input>
+            <h2>Username: {profileData.username}</h2>
             <input name='username' value={editProfile.username} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input><br />
-            <img src={profileData.photo}></img><br />
-            <input name='photo' value={editProfile.photo} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input><br />
-            <p>Email: {profileData.email}</p>
-            <input name='email' value={editProfile.email} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input><br />
+            <img src={profileData.profilepicture}></img><br />
+            <input name='profilepicture' value={editProfile.profilepicture} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input><br />
+            <p>Email: {profileData.primaryemail}</p>
+            <input name='primaryemail' value={editProfile.primaryemail} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input><br />
             <p>Age: {profileData.age}</p>
             <input name='age' value={editProfile.age} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input><br />
             <p>location: {profileData.location}</p>
             <input name='location' value={editProfile.location} style={editing ? {'display': 'inline-block'} : {'display': 'none'}} onChange={updateEdit}></input><br />
+            <button>Add Art</button><br />
             <p>Your posts:</p>
-            {profileData.posts.map(post => (
+            {profileData.arts.map(post => (
                 <div>
                     <h2>{post.title}</h2>
                     <img src={post.img} style={{'width': '200px', 'height':'auto'}}></img>
