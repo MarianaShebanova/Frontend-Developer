@@ -11,3 +11,53 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.addFormStyles {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.titleStyles {
+  border: none;
+  background: rgb(241, 241, 241);
+  width: 500px;
+  height: 50px;
+  font-size: 1.5rem;
+  font-style: bold;
+}
+
+.postButton {
+  text-align: center;
+  margin: 25px 0;
+  width: 75px;
+  height: 25px;
+  border: 1px solid rgb(241, 241, 241);
+  font-size: 0.8rem;
+}
+
+.postButton:hover {
+  font-size: 1.0rem;
+  border: none;
+  background: rgb(241, 241, 241);
+  transition: 1s;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.login-form label {
+  font-size: 1.25rem;
+  margin: 0 15px;
+}
+
+.input-div {
+  margin: 15px 0;
+}
+
+.home-page h1 {
+  text-align: center;
+}
