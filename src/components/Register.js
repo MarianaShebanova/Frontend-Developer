@@ -27,14 +27,24 @@ const Register = (props) => {
         e.preventDefault();
         console.log(credentials);
         axios
-        .post(`https://als-artportfolio.herokuapp.com/users/user/`, 
+        .post(`https://als-artportfolio.herokuapp.com/createnewuser/`, 
             credentials, 
-            {
-                headers: {
-                    Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            }
+            // {
+            //     "profilepicture": "www.piicture.com",
+            //     "username": "findme2",
+            //     "password": "password",
+            //     "primaryemail": "gmai5d45fl2@gmail.com",
+            //     "firstname": "Albert",
+            //     "lastname": "Yakubov",
+            //     "age": 10,
+            //     "location": "somewhere in the world"
+            // },
+            // {
+            //     headers: {
+            //         Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
+            //         'Content-Type': 'application/x-www-form-urlencoded'
+            //     }
+            // },
         )
         .then(response => {
             console.log("response", response);
@@ -84,51 +94,6 @@ const Register = (props) => {
                         type="email"
                         name="primaryemail"
                         value={credentials.primaryemail}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-div">
-                    <label htmlFor="firstname">First Name:</label>
-                    <input
-                        type="text"
-                        name="firstname"
-                        value={credentials.firstname}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-div">
-                    <label htmlFor="lastname">Last Name:</label>
-                    <input
-                        type="text"
-                        name="lastname"
-                        value={credentials.lastname}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-div">
-                    <label htmlFor="age">Age:</label>
-                    <input
-                        type="text"
-                        name="age"
-                        value={credentials.age}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-div">
-                    <label htmlFor="location">Location:</label>
-                    <input
-                        type="text"
-                        name="location"
-                        value={credentials.location}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-div">
-                    <label htmlFor="profilepicture">Profile Picture:</label>
-                    <input
-                        type="text"
-                        name="profilepicture"
-                        value={credentials.profilepicture}
                         onChange={handleChange}
                     />
                 </div>
