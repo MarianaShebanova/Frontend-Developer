@@ -18,7 +18,6 @@ const ProfilePage = (props) => {
     const [profileData, setProfileData] = useState(defaultProfile);
     const [editProfile, setEditProfile] = useState(defaultProfile);
     const [editing, setEditing] = useState(false);
-    const [userID, setID] = useState("");
     const Dispatch = useDispatch();
 
     // clears the stored token as well as the logged in user in the redux store
@@ -26,6 +25,11 @@ const ProfilePage = (props) => {
         sessionStorage.removeItem('logged-user');
         Dispatch({ type: "SET_LOGGED", payload: ""});
         sessionStorage.removeItem("token");
+    }
+
+    const updateID = (id) => {
+        sessionStorage.setItem("user-id",id);
+        Dispatch({ type: "SET_ID", payload: id});
     }
     
     // fetch the pofile data of the user when the component mounts
@@ -58,7 +62,7 @@ const ProfilePage = (props) => {
             });
 
             // sets the id of the user (for updating profile functionality)
-            setID(userInfo.userid);
+            updateID(userInfo.userid);
         })
         .catch(error => {
         console.log(error);
@@ -73,15 +77,17 @@ const ProfilePage = (props) => {
     // clear data and go can to home page
     const LogOut = () => {
         clearLoggedInUser();
+        updateID("");
         props.history.push("/");
     }
 
     // deletion of account
     const deleteProfile = () => {
         clearLoggedInUser();
+        updateID("");
 
         // Delete request for profile
-        axiosWithAuth().delete(`https://als-artportfolio.herokuapp.com/users/user/${userID}`)
+        axiosWithAuth().delete(`https://als-artportfolio.herokuapp.com/users/user/${props.userID}`)
             .then(response => {
                 console.log(response);
             })
@@ -101,7 +107,7 @@ const ProfilePage = (props) => {
             setEditProfile(profileData);
         } else {
             // if edit mode is active, submits the edit data to the server and turns off edit mode
-            axiosWithAuth().put(`https://als-artportfolio.herokuapp.com/users/user/${userID}`,editProfile)
+            axiosWithAuth().put(`https://als-artportfolio.herokuapp.com/users/user/${props.userID}`,editProfile)
             .then(response => {
                 console.log("edit profile submission",editProfile)
                 console.log("edit profile response",response);
@@ -159,6 +165,7 @@ const ProfilePage = (props) => {
 
 const mapStateToProps = state => ({
     loggedInUser: state.loggedInUser,
+    userID: state.userID,
 });
 
 export default connect(
