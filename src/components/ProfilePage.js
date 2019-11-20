@@ -17,17 +17,19 @@ const ProfilePage = (props) => {
     
     // fetch the pofile data of the user when the component mounts
     // set the profile data to display the user's profile page
+
     useEffect(() => {
-        axiosWithAuth().get(`http://localhost:5000/profile`)
+        axiosWithAuth().get(`https://als-artportfolio.herokuapp.com/users/users`)
         .then(response => {
-        setProfileData({
-            username: response.data.username,
-            email: response.data.email,
-            photo: response.data.photo,
-            age: response.data.age,
-            location: response.data.location,
-            posts: response.data.posts,
-        })
+            console.log(response);
+        // setProfileData({
+        //     username: response.data.username,
+        //     email: response.data.email,
+        //     photo: response.data.photo,
+        //     age: response.data.age,
+        //     location: response.data.location,
+        //     posts: response.data.posts,
+        // })
         })
         .catch(error => {
         console.log(error);

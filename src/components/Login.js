@@ -20,20 +20,23 @@ const Login = (props) => {
         // post request to retrieve a token from the backend
         e.preventDefault();
         axios
-        .get("https://als-artportfolio.herokuapp.com/login",
-            credentials
+        .post("https://als-artportfolio.herokuapp.com/login", 
+            `grant_type=password&username=${credentials.username}&password=${credentials.password}`, 
+            {
+                headers: {
+                    Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
         )
         .then(response => {
-            console.log(credentials);
-            console.log("response", response);
-            // const { data } = response;
-            // sessionStorage.setItem("token", data.payload);
-            // setLogged(true);
-            // // once token is handeled, navigate to profile page
-            // props.history.push("/profile-page");
+            console.log("response", response.data);
+            sessionStorage.setItem("token", response.data.access_token);
+            setLogged(true);
+            // once token is handeled, navigate to profile page
+            props.history.push("/profile-page");
         })
         .catch(err => {
-            console.log(credentials);
             console.log("there was an error");
             console.log(err);
         })
@@ -43,7 +46,13 @@ const Login = (props) => {
         e.preventDefault();
         axios
         .post("https://als-artportfolio.herokuapp.com/createnewuser", 
-            credentials
+            `grant_type=password&username=${credentials.username}&password=${credentials.password}`, 
+            {
+                headers: {
+                    Authorization: `Basic ${btoa('lambda-client:lambda-secret')}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }
         )
         .then(response => {
             console.log("response", response);
