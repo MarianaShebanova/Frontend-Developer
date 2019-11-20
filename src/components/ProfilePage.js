@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {axiosWithAuth} from "./axiosWithAuth";
+import { axiosWithAuth } from "./axiosWithAuth";
+import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 const defaultProfile = {
     username: "",
@@ -14,22 +16,30 @@ const ProfilePage = (props) => {
     const [profileData, setProfileData] = useState(defaultProfile);
     const [editProfile, setEditProfile] = useState(defaultProfile);
     const [editing, setEditing] = useState(false);
+    const Dispatch = useDispatch();
+
+    const clearLoggedInUser = () => {
+        sessionStorage.removeItem('logged-user');
+        Dispatch({ type: "SET_LOGGED", payload: ""});
+    }
     
     // fetch the pofile data of the user when the component mounts
     // set the profile data to display the user's profile page
 
     useEffect(() => {
-        axiosWithAuth().get(`https://als-artportfolio.herokuapp.com/users/users`)
+        axiosWithAuth().get(`https://als-artportfolio.herokuapp.com/users/users/`)
         .then(response => {
             console.log(response);
-        // setProfileData({
-        //     username: response.data.username,
-        //     email: response.data.email,
-        //     photo: response.data.photo,
-        //     age: response.data.age,
-        //     location: response.data.location,
-        //     posts: response.data.posts,
-        // })
+            console.log("This is the logged in user:",props.loggedInUser);
+            const userInfo = response.data.filter(function (user) {return user.username === props.loggedInUser})[0];
+        setProfileData({
+            username: userInfo.username,
+            email: userInfo.primaryemail,
+            photo: userInfo.profilepicture,
+            age: userInfo.age,
+            location: userInfo.location,
+            posts: userInfo.arts,
+        })
         })
         .catch(error => {
         console.log(error);
@@ -37,6 +47,7 @@ const ProfilePage = (props) => {
     },[])
 
     const LogOut = () => {
+        clearLoggedInUser();
         sessionStorage.removeItem("token");
         props.history.push("/");
     }
@@ -99,4 +110,10 @@ const ProfilePage = (props) => {
     );
 };
 
-export default ProfilePage;
+const mapStateToProps = state => ({
+    loggedInUser: state.loggedInUser,
+});
+
+export default connect(
+    mapStateToProps,
+)(ProfilePage);
