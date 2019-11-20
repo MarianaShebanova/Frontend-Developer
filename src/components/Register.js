@@ -85,6 +85,51 @@ const Register = (props) => {
                         onChange={handleChange}
                     />
                 </div>
+                <div className="input-div">
+                    <label htmlFor="firstname">First Name:</label>
+                    <input
+                        type="text"
+                        name="firstname"
+                        value={credentials.firstname}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="input-div">
+                    <label htmlFor="lastname">Last Name:</label>
+                    <input
+                        type="text"
+                        name="lastname"
+                        value={credentials.lastname}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="input-div">
+                    <label htmlFor="age">Age:</label>
+                    <input
+                        type="text"
+                        name="age"
+                        value={credentials.age}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="input-div">
+                    <label htmlFor="location">Location:</label>
+                    <input
+                        type="text"
+                        name="location"
+                        value={credentials.location}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="input-div">
+                    <label htmlFor="profilepicture">Profile Picture:</label>
+                    <input
+                        type="text"
+                        name="profilepicture"
+                        value={credentials.profilepicture}
+                        onChange={handleChange}
+                    />
+                </div>
                 <br />
                 <button onClick={register}>Register</button>
                 <p>Already have an account?</p>
