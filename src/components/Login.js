@@ -1,81 +1,54 @@
-import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import React from "react";
+import ReactDOM from "react-dom";
+import { withFormik, Form, Field } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 
-const Login = (props) => {
-    const [credentials, setCredentials] = useState({
-        username: "",
-        password: "",
-    })
-    const [isLoggedIn, setLogged] = useState(false);
-
-    const handleChange = e => {
-        e.preventDefault();
-        setCredentials({
-            ...credentials,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const login = e => {
-        // post request to retrieve a token from the backend
-        e.preventDefault();
-        axios
-        .post(
-            "http://localhost:5000/login",
-            credentials
-        )
-        .then(response => {
-            console.log("response", response);
-            const { data } = response;
-            sessionStorage.setItem("token", data.payload);
-            setLogged(true);
-            // once token is handeled, navigate to profile page
-            props.history.push("/profile-page");
-        })
-        .catch(err => {
-            console.log("there was an error");
-            console.log(err);
-        })
-    };
-
-    useEffect(() => {
-        if (sessionStorage.getItem("token")) {
-        setLogged(true);
-        } else {
-        setLogged(false);
-        }
-    },[]);
-
+function LoginForm({ values, errors, touched, isSubmitting }) {
     return (
-    <div className="home-page">
-        <h1>Welcome to the Art Portfolio</h1>
-        <div className="login-form">
-            <h2>{isLoggedIn ? "LOGGED IN!" : "Please login"}</h2>
-            <form onSubmit={login}>
-                <div className="input-div">
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        name="username"
-                        value={credentials.username}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-div">
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={credentials.password}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button>Log in</button>
-            </form>
-        </div>
-    </div>
+        <Form>
+            <div>
+                {touched.email && errors.email && <p>{errors.email}</p>}
+                <Field type="email" name="email" placeholder="Email" />
+            </div>
+            <div>
+                {touched.password && errors.password && <p>{errors.password}</p>}
+                <Field type="password" name="password" placeholder="Password" />
+            </div>
+            <button disabled={isSubmitting}>Submit</button>
+    </Form>
     );
 }
 
+const FormikLoginForm = withFormik({
+    mapPropsToValues({ email, password}) {
+        return {
+            email: email || "",
+            password: password || "",
+        };
+    },
+    validationSchema: Yup.object().shape({
+        email: Yup.string()
+            .email("Email not valid")
+            .required("Email is required"),
+        password: Yup.string()
+            .min(6, "Password must be 6 characters or longer")
+            .required("Password is required")
+    }),
+    handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+            axios
+                .post("https://als-artportfolio.herokuapp.com/art/art", values)
+                .then(res => {
+                    console.log(res); // Data was created successfully and logs to console
+                    resetForm();
+                    setSubmitting(false);
+                    alert("I am sign in");
+                })
+                .catch(err => {
+                    console.log(err); // There was an error creating the data and logs to console
+                    setSubmitting(false);
+                });
+    }
+})(LoginForm);
 
-export default Login;
+export default FormikLoginForm;
