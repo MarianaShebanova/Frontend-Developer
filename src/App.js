@@ -1,23 +1,18 @@
-import "./styles.scss";
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from "react";
+import { Route } from 'react-router-dom';
+import Header from "./components/Header.js";
+import CharacterList from "./components/CharacterList";
+import WelcomePage from "./components/WelcomePage";
+import Card from "./components/Card";
+import FormikLoginForm from "./components/Login";
 
-import Login from "./components/Login";
-import ProfilePage from './components/ProfilePage.js';
-import PrivateRoute from './components/PrivateRoute';
-
-
-function App() {
+export default function App() {
   return (
-    <Router>
-      <div className="App">
-        <Route exact path="/" component={Login} />
-        <PrivateRoute path="/profile-page">
-            <Route exact path="/profile-page" component={ProfilePage} />
-        </PrivateRoute>
-      </div>
-    </Router>
+    <main>
+      <Header />
+      <Route exact path="/" component={FormikLoginForm} />
+      <Route exact path="/character/" component={CharacterList}/>
+      <Route exact path="/character/:id" component={Card} />
+    </main>
   );
 }
-
-export default App;
